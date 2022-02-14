@@ -1,0 +1,105 @@
+scalar Email
+scalar Picture
+scalar Any
+
+input Pagination{
+    page: Int = 1 
+    limit: Int = 3
+}
+
+
+
+type Mutation {
+    register(
+        username: String!
+        password: String!
+        contact: Int!
+        email: Email!
+    ): Any
+
+    login(
+        username: String!
+        password:String!
+    ): Any
+
+    addProduct(
+        categorieId: ID
+        productName: String 
+        productprice: Int
+        shortdescription: String
+        longdescription: String
+        count: Int
+    ): Any
+
+    addOrder(
+        productId: ID 
+    ): Any
+}
+
+
+
+type Query {
+
+    categories: [Categorie!]!
+
+    products(
+        productId: ID
+        searchCategorie: ID
+        search: String
+        pagination: Pagination = {}
+    ): [Products!]!
+
+    users(
+        userId: ID
+        search: String
+        pagination: Pagination = {}
+    ): [User!]!
+
+    statistics: [Statistica!]!
+
+    orders: [Order!]!
+
+    order_products: Any 
+}
+
+
+
+
+type Categorie {
+    categorieId: ID!
+    categorieName: String!
+}
+
+type Products {
+    productId: ID!
+    categorieId: ID!
+    productName: String!
+    productPrice: Int!
+    shortdescription: String!
+    longdescription: String!
+    count: Int!
+    picture: Picture
+}
+
+type User {
+    userId: ID!
+    username: String!
+    contact: Int!
+    email: Email!
+    userRole: Boolean!
+}
+
+type Order {
+    userId: ID!
+    productId: ID!
+    totalPrice: Int!
+    isPaid: Boolean!
+}
+
+type Statistica {
+    orderId: ID! 
+    totalMoney: Boolean!
+    theMostSoldProduct: String!
+    theLeastSoldProduct: String!
+}
+
